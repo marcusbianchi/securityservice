@@ -155,16 +155,16 @@ These are the fields of the user and it's constrains:
     * Body: User Group JSON
   * Delete: Disable User with usergroupid = ID
 
-* api/users/list{usergroupid}{usergroupid}
+* api/usergroups/list{usergroupid}{usergroupid}
   * Get: Return List of Users with usergroupid = ID
 
-* api/usergroupss/users/{id}
+* api/usergroups/users/{id}
   * Post: Add the user to the group
     * Body: User JSON
   * Delete: Remove the user from the group User with usergroupid = ID
     * Body: User JSON
 
-* api/usergroupss/permissions/{id}permission={permission}
+* api/usergroups/permissions/{id}permission={permission}
   * Post: Add the permission to the group
   * Delete: Remove the permission from the group User with usergroupid = ID
 
@@ -187,7 +187,7 @@ These are the fields of the user and it's constrains:
 ```json
 {
   "password": "2",
-  "username": "teste1",
+  "username": "teste1"
 }
 ```
 ## URLs

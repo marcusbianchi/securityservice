@@ -1,0 +1,13 @@
+version: '3'
+services:
+  securityservice:
+    build:
+        dockerfile: ./Dockerfile
+        context: ./
+    image: marcusbianchi/securityservice
+    container_name: securityservice        
+    volumes:
+      - /var/keys/:/var/keys/  
+    ports:
+        - "5010:5010"
+
