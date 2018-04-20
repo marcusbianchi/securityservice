@@ -53,6 +53,7 @@ namespace securityservice.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] User user) {
+            user.userId = 0;
             if (ModelState.IsValid) {
                 user = await _userService.createUser (user);
                 return Created ($"api/users/{user.userId}", user);

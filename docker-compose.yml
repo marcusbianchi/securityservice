@@ -7,7 +7,13 @@ services:
     image: marcusbianchi/securityservice
     container_name: securityservice        
     volumes:
-      - /var/keys/:/var/keys/  
+      - keysvolume:/var/keys/  
     ports:
         - "5010:5010"
-
+volumes:
+  keysvolume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/keys/
+      o: bind

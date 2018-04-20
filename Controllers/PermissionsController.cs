@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using securityfilter;
 
 namespace securityservice.Controllers {
     [Route ("api/[controller]")]
@@ -19,6 +20,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpGet]
+        //[SecurityFilter("get_permissions")]
         [ResponseCache (CacheProfileName = "accesscache")]
         public ActionResult Get () {
             var permissions = _permisionService.getPermisions ();

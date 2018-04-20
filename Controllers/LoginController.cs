@@ -7,6 +7,7 @@ using securityservice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using securityfilter.Services.Interfaces;
 
 namespace securityservice.Controllers {
     [Route ("api/login")]
@@ -20,7 +21,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Get ([FromBody] User user) {
+        public async Task<IActionResult> Post ([FromBody] User user) {
 
             if (String.IsNullOrEmpty (user.password) && String.IsNullOrEmpty (user.username)) {
                 return BadRequest ();

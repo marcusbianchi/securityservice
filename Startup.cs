@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using securityfilter.Services;
+using securityfilter.Services.Interfaces;
 using securityservice.Data;
 using securityservice.Services;
 using securityservice.Services.Interfaces;
@@ -36,7 +38,9 @@ namespace securityservice {
 
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseNpgsql (Configuration.GetConnectionString ("AccessControlDB")));
-            services.AddDataProtection ()
+
+            if (!String.IsNullOrEmpty (Configuration["KeyFolder"]))
+                services.AddDataProtection ()
                 .SetApplicationName ("Lorien")
                 .PersistKeysToFileSystem (new DirectoryInfo (Configuration["KeyFolder"]));
 
