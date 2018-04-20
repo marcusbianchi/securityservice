@@ -14,7 +14,7 @@ namespace securityservice.Model
         public string name { get; set; }
 
         [Required]
-        [MaxLength (255)]
+        [MaxLength (280)]
         public string password { get; set; }
 
         [Required]

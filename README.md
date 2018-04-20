@@ -13,7 +13,7 @@ These are the fields of the user and it's constrains:
   * String (Up to 50 chars)
   * Mandatory
 * password: Hashed Password
-  * String (Up to 250 chars)
+  * String (Up to 280 chars)
   * Mandatory
 * name: Name of the user
   * String (Up to 50 chars)
