@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using securityservice.Model;
-using securityservice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
+using securityservice.Model;
+using securityservice.Services.Interfaces;
+
 namespace securityservice.Controllers {
     [Route ("api/usergroups/permissions/")]
     public class PermissionUserGroupsController : Controller {
@@ -15,6 +17,8 @@ namespace securityservice.Controllers {
         }
 
         [HttpPost ("{usergroupId}")]
+        [SecurityFilter ("usergroups__allow_update")]
+
         public async Task<IActionResult> Post (int usergroupId, [FromQuery] string permission) {
             if (ModelState.IsValid) {
                 var group = await _userGroupService.AddPermisionToUserGroup (usergroupId, permission);
@@ -26,6 +30,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpDelete ("{usergroupId}")]
+        [SecurityFilter ("usergroups__allow_update")]
         public async Task<IActionResult> Delete (int usergroupId, [FromQuery] string permission) {
             if (ModelState.IsValid) {
                 var group = await _userGroupService.RemovePermisionFromUserGroup (usergroupId, permission);

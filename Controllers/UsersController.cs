@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using securityservice.Model;
-using securityservice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
+using securityservice.Model;
+using securityservice.Services.Interfaces;
+
 namespace securityservice.Controllers {
     [Route ("api/[controller]")]
     public class UsersController : Controller {
@@ -17,6 +19,7 @@ namespace securityservice.Controllers {
 
         [HttpGet]
         [ResponseCache (CacheProfileName = "accesscache")]
+        [SecurityFilter ("user__allow_read")]
         public async Task<IActionResult> Get ([FromQuery] int startat, [FromQuery] int quantity, [FromQuery] string fieldFilter, [FromQuery] string fieldValue, [FromQuery] string orderField, [FromQuery] string order) {
 
             var fieldFilterEnum = UserFieldEnum.Default;
@@ -35,6 +38,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpGet ("list/")]
+        [SecurityFilter ("user__allow_read")]
         [ResponseCache (CacheProfileName = "accesscache")]
         public async Task<IActionResult> GetList ([FromQuery] int[] userId) {
             var users = await _userService.getUsersById (userId);
@@ -42,6 +46,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpGet ("{id}")]
+        [SecurityFilter ("user__allow_read")]
         [ResponseCache (CacheProfileName = "accesscache")]
         public async Task<IActionResult> Get (int id) {
             var user = await _userService.getUser (id);
@@ -52,6 +57,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpPost]
+        [SecurityFilter ("user__allow_update")]
         public async Task<IActionResult> Post ([FromBody] User user) {
             user.userId = 0;
             if (ModelState.IsValid) {
@@ -62,6 +68,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpPut ("{id}")]
+        [SecurityFilter ("user__allow_update")]
         public async Task<IActionResult> Put (int id, [FromBody] User user) {
             if (ModelState.IsValid) {
                 user = await _userService.updateUser (id, user);
@@ -74,6 +81,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpDelete ("{id}")]
+        [SecurityFilter ("user__allow_update")]
         public async Task<IActionResult> Delete (int id) {
             var user = await _userService.deleteUser (id);
             if (user != null) {

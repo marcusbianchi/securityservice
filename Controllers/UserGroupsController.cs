@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using securityservice.Model;
-using securityservice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
+using securityservice.Model;
+using securityservice.Services.Interfaces;
 namespace securityservice.Controllers {
     [Route ("api/[controller]")]
     public class UserGroupsController : Controller {
@@ -16,6 +17,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpGet]
+        [SecurityFilter ("usergroups__allow_read")]
         [ResponseCache (CacheProfileName = "accesscache")]
         public async Task<IActionResult> Get ([FromQuery] int startat, [FromQuery] int quantity, [FromQuery] string fieldFilter, [FromQuery] string fieldValue, [FromQuery] string orderField, [FromQuery] string order) {
 
@@ -34,8 +36,9 @@ namespace securityservice.Controllers {
             return Ok (new { values = groups, total = total });
         }
 
-        [HttpGet("name/{groupName}")]
+        [HttpGet ("name/{groupName}")]
         [ResponseCache (CacheProfileName = "accesscache")]
+        [SecurityFilter ("usergroups__allow_read")]
         public async Task<IActionResult> GetByName (string groupName) {
 
             var group = await _userGroupService.getUserByName (groupName);
@@ -46,6 +49,7 @@ namespace securityservice.Controllers {
 
         [HttpGet ("list/")]
         [ResponseCache (CacheProfileName = "accesscache")]
+        [SecurityFilter ("usergroups__allow_read")]
         public async Task<IActionResult> GetList ([FromQuery] int[] usergroupId) {
             var groups = await _userGroupService.getUserGroupssById (usergroupId);
             return Ok (groups);
@@ -53,6 +57,8 @@ namespace securityservice.Controllers {
 
         [HttpGet ("{id}")]
         [ResponseCache (CacheProfileName = "accesscache")]
+        [SecurityFilter ("usergroups__allow_read")]
+
         public async Task<IActionResult> Get (int id) {
             var groups = await _userGroupService.getGroup (id);
             if (groups == null)
@@ -61,6 +67,8 @@ namespace securityservice.Controllers {
         }
 
         [HttpPost]
+        [SecurityFilter ("usergroups__allow_update")]
+
         public async Task<IActionResult> Post ([FromBody] UserGroup group) {
             if (ModelState.IsValid) {
                 group = await _userGroupService.createUserGroup (group);
@@ -70,6 +78,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpPut ("{id}")]
+        [SecurityFilter ("usergroups__allow_update")]
         public async Task<IActionResult> Put (int id, [FromBody] UserGroup group) {
             if (ModelState.IsValid) {
                 group = await _userGroupService.updateUserGroup (id, group);
@@ -82,6 +91,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpDelete ("{id}")]
+        [SecurityFilter ("usergroups__allow_update")]
         public async Task<IActionResult> Delete (int id) {
             var user = await _userGroupService.deleteUserGroup (id);
             if (user != null) {

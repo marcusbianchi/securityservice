@@ -20,7 +20,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpGet]
-        //[SecurityFilter("get_permissions")]
+        [SecurityFilter("permissions__allow_read")]
         [ResponseCache (CacheProfileName = "accesscache")]
         public ActionResult Get () {
             var permissions = _permisionService.getPermisions ();

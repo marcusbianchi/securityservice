@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using securityservice.Model;
-using securityservice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using securityfilter;
+using securityservice.Model;
+using securityservice.Services.Interfaces;
 namespace securityservice.Controllers {
     [Route ("api/usergroups/users/")]
     public class UserToUserGroupsController : Controller {
@@ -15,6 +16,8 @@ namespace securityservice.Controllers {
         }
 
         [HttpPost ("{usergroupId}")]
+        [SecurityFilter ("usergroups__allow_update")]
+
         public async Task<IActionResult> Post (int usergroupId, [FromBody] User user) {
             if (ModelState.IsValid) {
                 var group = await _userGroupService.AddUserToUserGroup (usergroupId, user);
@@ -26,6 +29,7 @@ namespace securityservice.Controllers {
         }
 
         [HttpDelete ("{usergroupId}")]
+        [SecurityFilter ("usergroups__allow_update")]
         public async Task<IActionResult> Delete (int usergroupId, [FromBody] User user) {
             if (ModelState.IsValid) {
                 var group = await _userGroupService.RemoveUserFromUserGroup (usergroupId, user);
