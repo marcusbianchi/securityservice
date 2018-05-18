@@ -17,6 +17,7 @@ namespace securityservice.Services {
         public async Task<User> createUser (User user) {
             user.userGroup = null;
             user.enabled = true;
+            
             _context.Users.Add (user);
             await _context.SaveChangesAsync ();
             return user;

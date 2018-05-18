@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using securityservice.Validation;
 
 namespace securityservice.Model
 {
@@ -7,6 +8,7 @@ namespace securityservice.Model
 
         [Required]
         [MaxLength (20)]
+        [UsernameValidation]
         public string username { get; set; }
 
         [Required]
